@@ -22,7 +22,10 @@ spec:
         name: mysql
         env: 
          - name: MYSQL_ROOT_PASSWORD
-           value: redhat
+           valueFrom:
+             secretKeyRef:
+                 name: mysql-secret
+                 key: mypass
          - name: MYSQL_DATABASE
            value: customer_db
         ports:
