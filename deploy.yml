@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: rohitrawat891997/web:latest
+        name: web
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: redhat
+          - name: MYSQL_USER
+            value: root
+          - name: MYSQL_HOST
+            value: "10.111.254.106"
+          - name: MYSQL_DATABASE
+            value: customer_db
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: web-vol
+            mountPath: /var/www/html/
+      volumes:
+        - name: web-vol
+          configMap:
+            name: web-cm
